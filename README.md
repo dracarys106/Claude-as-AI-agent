@@ -9,6 +9,10 @@
 - [Expected Outcome](#expected-outcome)
 - [Scope and Constraints](#scope-and-constraints)
 - [Role of Claude as an Intelligent Agent](#role-of-claude-as-an-intelligent-agent)
+- [Model Context Protocol (MCP)](#model-context-protocol-mcp)
+- [AI Frameworks Used](#ai-frameworks-used)
+  - [LangChain](#langchain)
+  - [GraphRAG](#graphrag)
 - [System Architecture Design](#system-architecture-design)
 - [Architecture Diagram](#architecture-diagram)
 - [Agent Components Explanation](#agent-components-explanation)
@@ -24,6 +28,7 @@
 - [Audit Logging and Compliance](#audit-logging-and-compliance)
 - [Security Safeguards](#security-safeguards)
 - [Benefits of Claude-Driven Automation](#benefits-of-claude-driven-automation)
+- [Advantages of Multi-Agent + MCP Approach](#advantages-of-multi-agent--mcp-approach)
 - [Future Extensions](#future-extensions)
 
 ---
@@ -92,6 +97,59 @@ Claude acts as an **intelligent orchestration layer**:
 - Generates audit evidence  
 
 Claude **never directly handles private keys or certificates**.
+
+---
+## Model Context Protocol (MCP)
+
+**Model Context Protocol (MCP)** enables secure and structured interaction between Claude agents and tools by:
+
+- Managing permissions
+- Preserving execution context
+- Enforcing policy constraints
+- Allowing safe inter-agent communication
+
+MCP ensures cryptographic operations remain **controlled, auditable, and secure**.
+
+---
+
+## AI Frameworks Used
+
+### LangChain
+
+**LangChain** is used to **orchestrate agent workflows and tool execution**.
+#### Role in This System:
+- Defines chains for cryptographic workflows  
+- Coordinates tool invocation (Vault, OpenSSL, CA APIs)  
+- Enables agent-to-agent communication  
+- Integrates Claude with external systems  
+
+#### Example Use:
+- A LangChain workflow chains:
+  `Policy Check → Key Generation → CSR Creation → CA Submission → Audit Logging`
+
+LangChain ensures **deterministic, structured execution** instead of ad-hoc AI responses.
+
+---
+
+### GraphRAG
+
+**GraphRAG (Graph-based Retrieval-Augmented Generation)** is used to maintain **structured cryptographic knowledge**.
+
+#### Role in This System:
+- Stores relationships between:
+  - Keys
+  - Certificates
+  - CAs
+  - Policies
+  - Services
+- Enables Claude to reason over **PKI dependencies**
+
+#### Example Use:
+- Identify all services affected by a certificate revocation  
+- Trace certificate trust chains  
+- Validate policy compliance across assets  
+
+GraphRAG provides **context-aware, relationship-driven reasoning**, which is critical in PKI systems.
 
 ---
 
@@ -275,6 +333,37 @@ All actions generate audit records:
 - Reduces human error  
 - Improves audit readiness  
 - Enhances reliability  
+
+---
+
+## Advantages of Multi-Agent + MCP Approach
+
+### 1. Strong Security Isolation
+Each agent has limited responsibility, reducing blast radius.
+
+### 2. Better Policy Enforcement
+Dedicated Policy Agent ensures no cryptographic violations.
+
+### 3. Improved Scalability
+Agents can scale independently across environments.
+
+### 4. Clear Auditability
+Every agent action is logged with responsibility attribution.
+
+### 5. Safe Tool Usage
+MCP restricts tool access and enforces permissions.
+
+### 6. Enterprise-Ready Design
+Matches real-world DevSecOps and Zero Trust models.
+
+---
+
+## Security Safeguards
+
+- No private key exposure
+- Least-privilege agent access
+- No algorithm invention
+- Tamper-evident audit logs
 
 ---
 
